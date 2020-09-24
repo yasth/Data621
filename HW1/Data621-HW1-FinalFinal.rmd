@@ -456,7 +456,7 @@ Adjusted-r2 did not improve overall as compared with model 1 and intercept is no
 
 For the BoxCox transformed data set we will continue with the same variables as previously. 
 
-```{r message=FALSE, output=F, echo=F, warning=FALSE, resuls='asis'}
+```{r message=FALSE, output=F, echo=F, warning=FALSE, results='asis'}
 
 dependent <- "TARGET_WINS"
 explanatory <- c("BATTING_H","BATTING_2B","BATTING_3B","BATTING_HR","BASERUN_SB","PITCHING_H", "PITCHING_BB", "FIELDING_E", "FIELDING_DP","BASERUN_CS")
