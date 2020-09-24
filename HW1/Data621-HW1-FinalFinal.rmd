@@ -397,7 +397,7 @@ Using the imputed data we can simply run a linear regression against all the var
 dependent <- "TARGET_WINS"
 explanatory <- colnames(train2[,-1])
 model0 <- lm(TARGET_WINS ~ ., data = subset(train2, select=append(explanatory, dependent)))
-stargazer(model0, header=FALSE, type='latex')
+#stargazer(model0, header=FALSE, type='latex')
 ```
 First of all the significance of the model is significant as per the p-value of F-statistics. It means that overall the model is significant. Adjusted r2 is 0.32 which means these variables can explain 32% of TARGET_WINS. All the variables other than BASERUN_CS and PITCHING_SO are insignificant. BASERUN_CS has 33% missing values which should have negative impact and it has negative but insignificant. It means Caught Stealing and it does not impact the chances of winning significantly. PITCHING_SO means strikeouts by pitchers which also has insigificant impact on TARGET_WINS. BATTING_2B should have positive impact but in model it shows significant but with very little coefficient.  BATTING_HR means homeruns by batters should've and have positive impact on chances of winning. BATTING_BB means walks by batter. It should have positive impact but in our model it has insignificant impact. BATTING_SO means strikeouts by batters which shoul've negative impact but in our model it does not play significant role. BASERUN_SB should've significant impact and it has positive role. BASERUN_CS, PITCHING_HR and PITCHING_SO have insignificant impact while PITCHING_H, PITCHING_BB, FIELDING_E and FIELDING_DP have significant roles. 
 
@@ -429,7 +429,7 @@ dependent <- "TARGET_WINS"
 explanatory <- c("BATTING_H","BATTING_2B","BATTING_3B","BATTING_HR","BASERUN_SB","PITCHING_H", "PITCHING_BB", "FIELDING_E", "FIELDING_DP")
 model1 <- lm(TARGET_WINS ~ ., data = subset(train2, select=append(explanatory, dependent)))
 
-stargazer(model1, header=FALSE, type='latex')
+#stargazer(model1, header=FALSE, type='latex')
 ```
 This model's Adjusted R2 is also .32 which suggests our model is performing perfectly well without the other variables. This makes the model a bit less pointlessly confusing. 
 
@@ -448,7 +448,7 @@ dependent <- "TARGET_WINS"
 explanatory <- c("BATTING_H","BATTING_2B","BATTING_3B","BATTING_HR","BASERUN_SB","PITCHING_H", "PITCHING_BB", "FIELDING_E", "FIELDING_DP","BASERUN_CS")
 model2 <- lm(TARGET_WINS ~ ., data = subset(train_log, select=append(explanatory, dependent)))
 
-stargazer(model2, header=FALSE, type='latex')
+stargazer(model0, model1, model2, column.labels = c("model 0", "model 1", "model 2"), header=FALSE, type='latex')
 ```
 Adjusted-r2 did not improve overall as compared with model 1 and intercept is no longer significant in this model. The additional Caught Stealing variable is significant, but with the loss of a significant intercept it is a wash. This does not seem a preferred model because log transformations are complex to intuit, and it doesn't seem to offer a meaningful benefit.
 
@@ -462,7 +462,7 @@ dependent <- "TARGET_WINS"
 explanatory <- c("BATTING_H","BATTING_2B","BATTING_3B","BATTING_HR","BASERUN_SB","PITCHING_H", "PITCHING_BB", "FIELDING_E", "FIELDING_DP","BASERUN_CS")
 model3 <- lm(TARGET_WINS ~ ., data = subset(train_bx_transformed, select=append(explanatory, dependent)))
 
-stargazer(model3, header=FALSE, type='latex')
+#stargazer(model3, header=FALSE, type='latex')
 ```
 With boxcox transformation, intercept is now again significant but adjusted r-square dropped to .29. We have lost two variables to insignificance with Caught Stealing becoming particular meaningless. 
 
@@ -472,7 +472,7 @@ With our log adjusted KNN we will take all 13 variables.
 ```{r message=FALSE, output=F, echo=F, warning=FALSE, results='asis'}
 model4 <- lm(TARGET_WINS ~ ., train_knn_log)
 
-stargazer(model4, header=FALSE, type='latex')
+stargazer(model3,model4,column.labels = c("model 3","model 4"), header=FALSE, type='latex')
 ```
 It appears that knn-imputation along with log transformation improved the adjusted r-square from 0.33 to 0.39 from model 3. As discussed merely depending upon adjusted r-square is not advised. According to new model BATTING_HR is insignificant all the other variables are significant at 10 % confidence interval which means result did improve here. BATTING_2B is negative though but consistent with all models but to very low extent. BATTING_SO, PITCHING_H, PITCHING_BB and PITCHING_E have also negative impact which comports with the theoretical impact.
 
